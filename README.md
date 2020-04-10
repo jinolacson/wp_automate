@@ -1,6 +1,6 @@
 # About the script
 
-This is a simple script i built using `python3` to automate the process of upgrading of your old wordpress project(s), to start your will need `pipenv` configured in your machine
+I built this script using `python3` to automate the process of upgrading of your old wordpress project(s), to start your will need `pipenv` configured in your machine
 
 # Installation
 
