@@ -48,7 +48,7 @@ async def download_wp():
 async def upgrade_wp():
     """Upgrade the wordpress projects"""
 
-    root_src_dir = wp_download+'/'+wp_projects #the extracted wordpress
+    root_src_dir = wp_download+'/'+wp_projects # The downloaded and extracted new wordpress files version
 
     subfolders = [ f.path for f in os.scandir(wp_projects) if f.is_dir() ]
     for path in subfolders:
