@@ -13,7 +13,7 @@ wp_download = "CREATE A FOLDER INSIDE /wp_automate/" #The base folder of downloa
 wp_latest = 'https://wordpress.org/latest.tar.gz' #The latest tar.gz of wordpress
 
 async def scanFolders(baseFolder):
-    """This function scan the version.php of every wp projects"""
+    """This function will scan the every [projectname]/wp/includes/version.php and yield its version"""
 
     for root, dirs, files in os.walk(baseFolder):
         for name in files:
@@ -25,11 +25,10 @@ async def scanFolders(baseFolder):
                         elems = re.findall(r'\d+', line.strip())
                         if elems != []:
                             version = '.'.join([str(x) for x in elems])
-                            #print(folder ," => ", version)
                             yield folder, version
 
 async def scan_wp():
-    """Display the old WP versions"""
+    """This funcrion will display the old WP versions in every project folder"""
 
     async for folder, old_v in scanFolders(wp_projects):
         async for f,latest_v in scanFolders(wp_download):
@@ -37,7 +36,7 @@ async def scan_wp():
                 print(folder, old_v, "<" ,latest_v, (old_v<latest_v))
 
 async def download_wp():
-    """Download the latest wp zip folder and extract to /extract/ folder"""
+    """This function will download the latest wp .tar.gz folder then extract to /wp_automate/wp_download/ folder"""
 
     filename = wget.download(wp_latest)
     my_tar = tarfile.open(filename)
@@ -46,7 +45,7 @@ async def download_wp():
 
 
 async def upgrade_wp():
-    """Upgrade the wordpress projects"""
+    """This function will upgrade all wordpress projects inside /wp_projects/ folder"""
 
     root_src_dir = wp_download+'/'+wp_projects # The downloaded and extracted new wordpress files version
 
@@ -67,7 +66,7 @@ async def upgrade_wp():
                         continue
 
                     # Do not remove /wp-content/ folder
-                    # We also need to exclude wp-config.php from removing
+                    # We also need to exclude wp-config.php in removing
                     if dst_file.strip().__contains__("wp-content") is False:
                         os.remove(dst_file)
 
@@ -78,6 +77,7 @@ async def upgrade_wp():
 
 
 async def main():
+""" This function will display list of commands """
     while True:
         try:
             print("#################################################")
